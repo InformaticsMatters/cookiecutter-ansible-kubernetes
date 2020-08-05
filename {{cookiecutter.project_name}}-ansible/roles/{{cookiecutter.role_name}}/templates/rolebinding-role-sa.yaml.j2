@@ -6,7 +6,7 @@ metadata:
   namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
 roleRef:
   kind: Role
-  name: {{cookiecutter.role_name}}-psp-unrestricted
+  name: {{cookiecutter.role_name}}-psp
   apiGroup: rbac.authorization.k8s.io
 subjects:
 - kind: ServiceAccount

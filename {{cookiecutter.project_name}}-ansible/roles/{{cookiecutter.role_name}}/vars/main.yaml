@@ -1,9 +1,10 @@
 ---
 
-# The application Pos Security Policy (PSP)
-{{cookiecutter.var_prefix}}_sa_psp: im-core-unrestricted
+# The application Pod Security Policy (PSP)
+{{cookiecutter.var_prefix}}_sa_psp: {{cookiecutter.psp}}
 
 # Application CPU and Memory requests and limits.
+# Requests are required but limits are not.
 # Set limit to blank ('') to avoid a limit.
 {{cookiecutter.var_prefix}}_cpu_request: 100m
 {{cookiecutter.var_prefix}}_cpu_limit: 100m

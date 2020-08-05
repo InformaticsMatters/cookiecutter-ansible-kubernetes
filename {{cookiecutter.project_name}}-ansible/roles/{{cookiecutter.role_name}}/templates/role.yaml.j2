@@ -2,7 +2,7 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: {{cookiecutter.role_name}}-psp-unrestricted
+  name: {{cookiecutter.role_name}}-psp
   namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
 rules:
 - apiGroups: ['policy']
