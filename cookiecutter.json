@@ -1,0 +1,16 @@
+{
+  "project_name": "application",
+  "namespace": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+  "role_name": "{{ cookiecutter.namespace }}",
+  "image_name": "application",
+  "image_tag": "1.0.0",
+  "var_prefix": "app",
+  "deployment": [ "deployment", "statefulset", "job", "cronjob"],
+  "add_probes": "{{ 'y' if cookiecutter.deployment in ['deployment', 'statefulset'] else 'n' }}",
+  "add_cicd_trigger": "{{ 'y' if cookiecutter.deployment in ['deployment', 'statefulset'] else 'n' }}",
+  "add_service": "{{ 'y' if cookiecutter.deployment in ['deployment', 'statefulset'] else 'n' }}",
+  "add_pvc": "n",
+  "add_ingress": "n",
+  "add_secret": "n",
+  "add_configmap": "n"
+}

@@ -1,0 +1,23 @@
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: {{cookiecutter.role_name}}
+  namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-nginx-{{ "{{" }} {{cookiecutter.var_prefix}}_cert_issuer|lower {{ "}}" }}"
+spec:
+  tls:
+  - hosts:
+    - {{ "{{" }} {{cookiecutter.var_prefix}}_hostname {{ "}}" }}
+    secretName: {{cookiecutter.role_name}}-tls
+  rules:
+  - host: {{ "{{" }} {{cookiecutter.var_prefix}}_hostname {{ "}}" }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{cookiecutter.role_name}}
+          servicePort: http

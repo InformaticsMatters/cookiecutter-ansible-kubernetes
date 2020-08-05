@@ -1,0 +1,20 @@
+---
+
+# The application Pos Security Policy (PSP)
+{{cookiecutter.var_prefix}}_sa_psp: im-core-unrestricted
+
+# Application CPU and Memory requests and limits.
+# Set limit to blank ('') to avoid a limit.
+{{cookiecutter.var_prefix}}_cpu_request: 100m
+{{cookiecutter.var_prefix}}_cpu_limit: 100m
+{{cookiecutter.var_prefix}}_mem_request: 250Mi
+{{cookiecutter.var_prefix}}_mem_limit: 250Mi
+
+# A request for a suitable node, based on node labels.
+# Here we would like nodes labelled 'purpose=application'...
+{{cookiecutter.var_prefix}}_node_purpose: application
+
+# General variables
+
+wait_timeout: 120
+pod_ready_timeout: 600

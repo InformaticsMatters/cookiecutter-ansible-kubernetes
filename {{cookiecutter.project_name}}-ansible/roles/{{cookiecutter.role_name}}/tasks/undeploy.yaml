@@ -1,0 +1,12 @@
+---
+
+# Un-deploy (uninstall).
+#
+# To un-deploy, the fastest way is to
+# simply delete the namespace.
+
+- name: Delete namespace
+  k8s:
+    state: absent
+    definition: "{{ "{{" }} lookup('template', 'namespace.yaml.j2') {{ "}}" }}"
+    wait: yes

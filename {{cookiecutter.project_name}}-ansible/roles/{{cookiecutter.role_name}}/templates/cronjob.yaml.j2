@@ -1,0 +1,72 @@
+---
+kind: CronJob
+apiVersion: batch/v1beta1
+metadata:
+  name: {{cookiecutter.role_name}}
+  namespace:  {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
+spec:
+  schedule: ' {{ "{{" }} {{cookiecutter.var_prefix}}_schedule {{ "}}" }}'
+  successfulJobsHistoryLimit: 1
+  startingDeadlineSeconds: 180
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            name: {{cookiecutter.role_name}}
+        spec:
+          serviceAccountName: {{cookiecutter.role_name}}
+
+          # A 'preferred' (not guaranteed)
+          # node selection affinity...
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 1
+                preference:
+                  matchExpressions:
+                  - key: purpose
+                    operator: In
+                    values:
+                    - {{ "{{" }} {{cookiecutter.var_prefix}}_node_purpose {{ "}}" }}
+
+          containers:
+          - name: {{cookiecutter.role_name}}
+            image: {{ "{{" }} {{cookiecutter.var_prefix}}_image_name {{ "}}" }}:{{ "{{" }} {{cookiecutter.var_prefix}}_image_tag {{ "}}" }}
+{{ "{%" }} if {{cookiecutter.var_prefix}}_image_tag in ['latest', 'stable'] {{ "%}" }}
+            imagePullPolicy: Always
+{{ "{%" }} else {{ "%}" }}
+            imagePullPolicy: IfNotPresent
+{{ "{%" }} endif {{ "%}" }}
+            terminationMessagePolicy: FallbackToLogsOnError
+            env:
+            - name: EXAMPLE_ENV
+               value: '1'
+            resources:
+              requests:
+                cpu: {{ "{{" }} {{cookiecutter.var_prefix}}_cpu_request {{ "}}" }}
+                memory: {{ "{{" }} {{cookiecutter.var_prefix}}_mem_request {{ "}}" }}
+{{ "{%" }} if {{cookiecutter.var_prefix}}_cpu_limit or {{cookiecutter.var_prefix}}_mem_limit {{ "%}" }}
+              limits:
+{{ "{%" }} if {{cookiecutter.var_prefix}}_cpu_limit {{ "%}" }}
+                cpu: {{ "{{" }} {{cookiecutter.var_prefix}}_cpu_limit {{ "}}" }}
+{{ "{%" }} endif {{ "%}" }}
+{{ "{%" }} if {{cookiecutter.var_prefix}}_mem_limit {{ "%}" }}
+                memory: {{ "{{" }} {{cookiecutter.var_prefix}}_mem_limit {{ "}}" }}
+{{ "{%" }} endif {{ "%}" }}
+{{ "{%" }} endif {{ "%}" }}
+{%- if cookiecutter.add_pvc|lower == 'y' %}
+            volumeMounts:
+            - mountPath: /volume
+              name: pvc-volume
+{% endif %}
+
+{% if cookiecutter.add_pvc|lower == 'y' %}
+          volumes:
+          - name: pvc-volume
+            persistentVolumeClaim:
+              claimName: {{cookiecutter.role_name}}
+{% endif %}
+
+          restartPolicy: Never

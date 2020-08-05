@@ -1,0 +1,131 @@
+---
+
+# Create the namespace and other basic materials
+
+- name: Create namespace ({{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }})
+  k8s:
+    definition: "{{ "{{" }} lookup('template', 'namespace.yaml.j2') {{ "}}" }}"
+    wait: yes
+
+- name: Create namespace material
+  k8s:
+    definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
+    wait: yes
+  loop:
+  - serviceaccount
+  - role
+  - rolebinding-role-sa
+  - limitrange
+{%- if cookiecutter.add_configmap|lower in ['y'] %}
+  - configmap
+{% endif %}
+
+{% if cookiecutter.add_ingress|lower in ['y'] %}
+- name: Relax ({{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }} 'default' service account (for cert-manager)
+  k8s:
+    definition: "{{ "{{" }} lookup('template', 'rolebinding-default-sa.yaml.j2') {{ "}}" }}"
+    wait: yes
+{% endif %}
+
+{% if cookiecutter.add_pvc|lower in ['y'] %}
+# Check storage class exists
+# and create the volume claim
+
+- name: Get {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass
+  k8s_info:
+    kind: StorageClass
+    name: "{{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass }}"
+  register: sc_result
+  when: {{cookiecutter.var_prefix}}_volume_storageclass != " "
+
+- name: Assert {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass
+  assert:
+    that: sc_result.resources|length == 1
+    fail_msg: The {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass must be available on the cluster
+  when: {{cookiecutter.var_prefix}}_volume_storageclass != " "
+
+- name: Create volume claim
+  k8s:
+    definition: "{{ "{{" }} lookup('template', 'pvc.yaml.j2') {{ "}}" }}"
+    wait: yes
+    wait_timeout: "{{ "{{" }} wait_timeout {{ "}}" }}"
+{% endif %}
+
+{% if cookiecutter.deployment == 'job' %}
+# Delete the Pods left behind that are Completed ('Succeeded').
+# Kubernetes *DOES NOT* remove these Job-based Pods automatically
+# (see https://kubernetes.io/docs/concepts/workloads/controllers/job/).
+# Instead completed Jobs need to be removed manually by the user.
+# The logic that follows list all Jobs (Pods)
+# that have Succeeded and then deletes them.
+
+- name: Get Succeeded Job Pods
+  k8s_info:
+    kind: Pod
+    namespace: "{{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}"
+    label_selectors:
+    - name={{cookiecutter.role_name}}
+    field_selectors:
+    - status.phase=Succeeded
+  register: pods_result
+
+- name: Delete Succeeded Job Pods
+  k8s:
+    kind: Pod
+    namespace: "{{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}"
+    name: "{{ "{{" }} item.metadata.name {{ "}}" }}"
+    state: absent
+  loop: "{{ "{{" }} pods_result.resources {{ "}}" }}"
+  when: pods_result.resources|length > 0
+{% endif %}
+
+# Deploy the application...
+
+- name: Deploy application
+  k8s:
+    definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
+    wait: yes
+    wait_timeout: "{{ "{{" }} pod_ready_timeout {{ "}}" }}"
+  loop:
+{%- if cookiecutter.deployment == 'cronjob' %}
+  - cronjob
+{%- elif cookiecutter.deployment == 'deployment' %}
+  - deployment
+{%- elif cookiecutter.deployment == 'job' %}
+  - job
+{%- elif cookiecutter.deployment == 'statefulset' %}
+  - statefulset
+{%- endif %}
+{%- if cookiecutter.add_service|lower in ['y'] %}
+  - service
+{%- endif %}
+{%- if cookiecutter.add_ingress|lower in ['y'] %}
+  - ingress
+{%- endif %}
+
+{% if cookiecutter.deployment == 'job' %}
+# It's a Job - so wait for completion
+
+- name: Wait for Job
+  k8s_info:
+    kind: Job
+    namespace: "{{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}"
+    name: {{cookiecutter.role_name}}
+  register: result
+  until: >-
+    result.resources[0].status.completionTime is defined
+    or result.resources[0].status.failed is defined
+  delay: 15
+  retries: "{{ "{{" }} (wait_timeout|int / 15)|int {{ "}}" }}"
+
+- name: Display Job status
+  debug:
+    var: result.resources[0].status
+
+- name: Assert Job success
+  assert:
+    that:
+    - result.resources[0].status.succeeded is defined
+    - result.resources[0].status.succeeded == 1
+    - result.resources[0].status.failed is not defined
+{% endif %}

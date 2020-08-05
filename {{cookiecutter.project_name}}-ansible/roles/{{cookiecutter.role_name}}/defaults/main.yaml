@@ -1,0 +1,32 @@
+---
+
+# Set to 'absent' to undeploy
+{{cookiecutter.var_prefix}}_state: present
+
+# The namespace to create for application deployment.
+{{cookiecutter.var_prefix}}_namespace: {{cookiecutter.namespace}}
+
+{%- if cookiecutter.add_pvc|lower in ['y'] %}
+# Persistent volume configuration
+# The storageclass is 'blank', which implies the default class.
+{{cookiecutter.var_prefix}}_volume_storageclass: " "
+{{cookiecutter.var_prefix}}_volume_size_g: 32
+{%- endif %}
+
+# Details of the application container image
+{{cookiecutter.var_prefix}}_image_name: {{cookiecutter.image_name}}
+{{cookiecutter.var_prefix}}_image_tag: '{{cookiecutter.image_tag}}'
+
+{%- if cookiecutter.add_ingress|lower in ['y'] %}
+# The ingress hostname (http/https assumed)
+{{cookiecutter.var_prefix}}_hostanme: www.example.com
+# The ingress "let's Encrypt" certificate issuer.
+# One of 'production' or 'staging'
+{{cookiecutter.var_prefix}}_cert_issuer: production
+{%- endif %}
+
+{%- if cookiecutter.deployment == 'cronjob' %}
+# The CronJob Schedule
+# Here we run at 04:07 every day.
+{{cookiecutter.var_prefix}}_schedule: '7 4 * * *'
+{%- endif %}

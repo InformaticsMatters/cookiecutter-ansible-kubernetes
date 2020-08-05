@@ -1,0 +1,18 @@
+---
+
+# A 'default' container CPU request and limit.
+# If a container does not specify its own CPU limit,
+# then it is assigned this default CPU limit.
+
+kind: LimitRange
+apiVersion: v1
+metadata:
+  name: {{cookiecutter.role_name}}
+  namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
+spec:
+  limits:
+  - default:
+      cpu: 1
+    defaultRequest:
+      cpu: 1
+    type: Container

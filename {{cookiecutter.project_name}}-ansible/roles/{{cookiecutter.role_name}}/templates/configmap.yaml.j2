@@ -1,0 +1,11 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{cookiecutter.role_name}}
+  namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
+data:
+  parameter_one: "3"
+  file.txt: |
+    a=23
+    b=24
