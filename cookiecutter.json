@@ -7,6 +7,7 @@
   "image_tag": "2019.8",
   "var_prefix": "ps",
   "deployment": ["deployment", "statefulset", "job", "cronjob"],
+  "wait_for_job": "{{ 'y' if cookiecutter.deployment in ['job'] else 'n' }}",
   "add_probes": "{{ 'y' if cookiecutter.deployment in ['deployment', 'statefulset'] else 'n' }}",
   "add_cicd_trigger": "{{ 'y' if cookiecutter.deployment in ['deployment', 'statefulset'] else 'n' }}",
   "add_service": "{{ 'y' if cookiecutter.deployment in ['deployment', 'statefulset'] else 'n' }}",

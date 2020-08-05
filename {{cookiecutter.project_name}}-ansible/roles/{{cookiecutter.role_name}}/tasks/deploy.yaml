@@ -103,7 +103,7 @@
   - ingress
 {%- endif %}
 
-{% if cookiecutter.deployment == 'job' %}
+{% if cookiecutter.deployment == 'job' and cookiecutter.wait_for_job == 'y' %}
 # It's a Job - so wait for completion
 
 - name: Wait for Job
