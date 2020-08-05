@@ -39,9 +39,11 @@ spec:
         imagePullPolicy: IfNotPresent
 {{ "{%" }} endif {{ "%}" }}
         terminationMessagePolicy: FallbackToLogsOnError
+{%- if cookiecutter.container_port %}
         ports:
-        - containerPort: 80
+        - containerPort: {{cookiecutter.container_port}}
           name: http
+{% endif %}
         env:
         - name: EXAMPLE_ENV
           value: '1'
@@ -57,16 +59,16 @@ spec:
 {%- endif %}
 {%- if cookiecutter.add_probes|lower == 'y' %}
         readinessProbe:
-          httpGet:
-            port: 80
+          tcpSocket:
+            port: {{cookiecutter.container_port}}
           initialDelaySeconds: 10
           timeoutSeconds: 5
           periodSeconds: 20
           successThreshold: 1
           failureThreshold: 6
         livenessProbe:
-          httpGet:
-            port: 80
+          tcpSocket:
+            port: {{cookiecutter.container_port}}
           initialDelaySeconds: 10
           timeoutSeconds: 5
           periodSeconds: 20

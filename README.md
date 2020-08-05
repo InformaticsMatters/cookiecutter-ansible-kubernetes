@@ -25,6 +25,9 @@ answer the prompted questions: -
 
     $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes
 
+The project is created in the current directory will be called after your
+chosen **project_name**, e.g. `{{ project_name }}-ansible`.
+
 ## Deploying the application
 You might need to adjust the application's role before you can deploy it
 but, for the very simplest applications, you should be ready to go
@@ -35,11 +38,27 @@ cluster, made available through some standard environment variables: -
 
     $ export K8S_AUTH_HOST=https://example.com
     $ export K8S_AUTH_API_KEY=000000
+    $ export K8S_AUTH_VERIFY_SSL=no
 
-Then, run the main playbook...
+Then, consider creating a virtual environment to deploy the application
+using the generated requirements: -
 
-    $ andible-playbook site.yaml
-        
+    $ conda create -n $(basename $PWD) python=3.8
+    [...]
+    $ conda activate $(basename $PWD)
+    $ pip install -r requirements.txt
+    
+Then run the main playbook from the produced directory...
+
+    $ ansible-playbook site.yaml
+
+## Un-deploying the application
+Run the site playbook, setting your application's `state` variable to
+`absent`. For the built-in application this would be: -
+
+    $ ansible-playbook site.yaml \
+        -e ps_state=absent
+    
 ---
 
 [ansible]: https://github.com/ansible/ansible
