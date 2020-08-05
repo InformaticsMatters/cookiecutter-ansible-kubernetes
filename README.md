@@ -1,7 +1,7 @@
 # A "cookiecutter" for Ansible Kubernetes projects
 A [cookiecutter] template repository to create projects that contain an
-[Ansible] **playbook** (and a **role**) to kick-start the deployment of a
-Kubernetes application.
+[Ansible] **playbook** (and a **role**) using the built-in **k8s** module
+to kick-start the deployment of a Kubernetes application.
 
 Use this cookiecutter to quickly *template* new Kubernetes application
 projects. The cookiecutter produces a playbook and an associated role with some
