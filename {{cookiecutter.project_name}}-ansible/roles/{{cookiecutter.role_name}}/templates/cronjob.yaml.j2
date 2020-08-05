@@ -5,7 +5,7 @@ metadata:
   name: {{cookiecutter.role_name}}
   namespace:  {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
 spec:
-  schedule: ' {{ "{{" }} {{cookiecutter.var_prefix}}_schedule {{ "}}" }}'
+  schedule: '{{ "{{" }} {{cookiecutter.var_prefix}}_schedule {{ "}}" }}'
   successfulJobsHistoryLimit: 1
   startingDeadlineSeconds: 180
   concurrencyPolicy: Forbid
@@ -42,7 +42,7 @@ spec:
             terminationMessagePolicy: FallbackToLogsOnError
             env:
             - name: EXAMPLE_ENV
-               value: '1'
+              value: '1'
             resources:
               requests:
                 cpu: {{ "{{" }} {{cookiecutter.var_prefix}}_cpu_request {{ "}}" }}
