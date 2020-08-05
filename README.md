@@ -1,14 +1,14 @@
-# A cookiecutter for Ansible Kubernetes projects
-A [cookiecutter] template repository to create our style of AWX-compliant
-repositories - repositories that contain an [Ansible] **playbook**
-(and a **role**) to kick-start the deployment of a Kubernetes application.
+# A "cookiecutter" for Ansible Kubernetes projects
+A [cookiecutter] template repository to create projects that contain an
+[Ansible] **playbook** (and a **role**) to kick-start the deployment of a
+Kubernetes application.
 
 Use this cookiecutter to quickly *template* new Kubernetes application
 projects. The cookiecutter produces a playbook and an associated role with some
 preset variables defined in `defaults` and `vars` along with a series of
 `tasks` to deploy the application and all its components from the kubernetes
 `templates` that are also created for you.
-        
+
 Answer the cookiecutter questions to create a pre-formatted project
 for the deployment of a container image application. the application can be
 a **CronJob**, **Deployment**, **Job** or **StatefulSet**. You can also decide
