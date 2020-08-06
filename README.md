@@ -31,10 +31,10 @@ you can prepare an application using this project's GitHub reference: -
     $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes
 
 The resultant project is created in the current directory, in a directory
-named after your chosen **project_name**, e.g. `{{ project_name }}-ansible`.
+named after your chosen **project_name**.
 
 ## Deploying the application
-You'' probably want to adjust the application's role or templates before you
+You'll probably want to adjust the application's role or templates before you
 deploy it but, for the very simplest applications, you might be ready to go
 straight away.
  
