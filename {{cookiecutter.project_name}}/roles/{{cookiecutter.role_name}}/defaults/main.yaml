@@ -1,5 +1,9 @@
 ---
 
+# Commonly adjusted application variables -
+# everything we expect the user to consider changing.
+# To avoid clutter, put less-common variables in 'vars/main.yaml'
+
 # Set to 'absent' to undeploy
 {{cookiecutter.var_prefix}}_state: present
 

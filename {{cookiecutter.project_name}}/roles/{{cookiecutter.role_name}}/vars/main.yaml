@@ -1,5 +1,9 @@
 ---
 
+# Less commonly application variables -
+# things the user is less-like to want to change (but can).
+# This is here to avoid clutter in 'defaults/main.yaml'
+
 # The application Pod Security Policy (PSP)
 {{cookiecutter.var_prefix}}_sa_psp: {{cookiecutter.psp}}
 

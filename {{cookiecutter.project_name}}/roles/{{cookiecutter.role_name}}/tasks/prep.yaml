@@ -12,20 +12,26 @@
 - name: Install prerequisite Python modules
   pip:
     name:
-    - kubernetes==10.0.1
-    - openshift==0.10.0
-    - jmespath==0.9.4
+    - kubernetes==11.0.0
+    - openshift==0.11.2
     extra_args: --user
+
+# Expose all the installed Python modules...
+
+- name: Capture pip freeze
+  command: pip freeze
+  register: freeze
+  changed_when: false
+
+- name: Display pip freeze
+  debug:
+    var: freeze.stdout_lines
 
 # Kubernetes credentials ------------------------------------------------------
 
 # We don't use the Kubernetes credentials directly,
 # but we load them into variables here from their
 # expected environment variables so that we can assert they've been set.
-#
-# If we're using OpenShift credentials these environment variables
-# will not be set and we will therefore rely on them being set
-# from the 'login.yaml' play.
 
 - name: Set initial authentication facts
   set_fact:

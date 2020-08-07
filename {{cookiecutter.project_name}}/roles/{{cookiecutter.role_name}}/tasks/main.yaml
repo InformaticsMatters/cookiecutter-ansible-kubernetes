@@ -2,12 +2,11 @@
 
 - include_tasks: prep.yaml
 
-# A kubernetes (or OpenShift) host and an API key must be set.
-# We will either have authenticated against an OpenShift server
-# or the AWX kubernetes credentials will have injected suitable
-# values for the K8S_AUTH_HOST and K8S_AUTH_API_KEY environment variables.
-# Either way the ansible variables 'k8s_auth_host' and
-# 'k8s_auth_api_key' will have been set.
+# A kubernetes host and an API key must be set.
+# Either environment variables wil have been set by the user
+# or AWX 'kubernetes' credentials will have injected them.
+# Either way the variables 'k8s_auth_host' and
+# 'k8s_auth_api_key' must have been set.
 - name: Assert authentication
   assert:
     that:
