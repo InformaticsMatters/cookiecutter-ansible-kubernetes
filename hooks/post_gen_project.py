@@ -33,7 +33,7 @@ if '{{cookiecutter.add_pvc|lower}}' in ['n']:
 if '{{cookiecutter.add_configmap|lower}}' in ['n']:
     delete_template_file('configmap')
 
-# Can only be one of 'deployment, job, statefulset.
+# Can only be one of deployment, job, statefulset etc.
 # Delete files that don't apply...
 
 if '{{cookiecutter.deployment}}' == 'cronjob':
