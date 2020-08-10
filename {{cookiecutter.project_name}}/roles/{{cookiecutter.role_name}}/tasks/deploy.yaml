@@ -87,6 +87,9 @@
     wait: yes
     wait_timeout: "{{ "{{" }} pod_ready_timeout {{ "}}" }}"
   loop:
+{%- if cookiecutter.add_secret|lower in ['y'] %}
+  - secret
+{%- endif %}
 {%- if cookiecutter.deployment == 'cronjob' %}
   - cronjob
 {%- elif cookiecutter.deployment == 'deployment' %}
