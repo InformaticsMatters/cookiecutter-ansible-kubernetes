@@ -28,7 +28,8 @@ and configure Travis accordingly).
 This is all down to cookiecutter. Once you've [installed] cookiecutter
 you can prepare an application using this project's GitHub reference: -
 
-    $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes
+    $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes \
+        --overwrite-if-exists
 
 The resultant project is created in the current directory, in a directory
 named after your chosen **project_name**.
