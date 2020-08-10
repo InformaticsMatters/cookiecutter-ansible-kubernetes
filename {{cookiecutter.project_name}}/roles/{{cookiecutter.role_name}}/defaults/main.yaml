@@ -34,3 +34,8 @@
 # Here we run at 04:07 every day.
 {{cookiecutter.var_prefix}}_schedule: '7 4 * * *'
 {% endif %}
+
+{% if cookiecutter.add_secret|lower in ['y'] %}
+# The pull-secret
+{{cookiecutter.var_prefix}}_pull_secret: '00000000'
+{% endif %}
