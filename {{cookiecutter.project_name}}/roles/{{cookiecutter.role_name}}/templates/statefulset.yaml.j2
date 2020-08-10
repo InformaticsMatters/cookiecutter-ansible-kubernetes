@@ -101,3 +101,8 @@ spec:
         persistentVolumeClaim:
           claimName: {{cookiecutter.role_name}}
 {% endif %}
+
+{% if cookiecutter.add_secret|lower == 'y' %}
+      imagePullSecrets:
+      - name: {{cookiecutter.role_name}}
+{% endif %}
