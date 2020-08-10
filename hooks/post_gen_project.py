@@ -33,6 +33,9 @@ if '{{cookiecutter.add_pvc|lower}}' in ['n']:
 if '{{cookiecutter.add_configmap|lower}}' in ['n']:
     delete_template_file('configmap')
 
+if '{{cookiecutter.add_secret|lower}}' in ['n']:
+    delete_template_file('secret')
+
 # Can only be one of deployment, job, statefulset etc.
 # Delete files that don't apply...
 
