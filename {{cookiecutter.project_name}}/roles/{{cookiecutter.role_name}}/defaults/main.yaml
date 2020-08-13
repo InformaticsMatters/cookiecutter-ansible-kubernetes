@@ -27,6 +27,10 @@
 # The ingress "let's Encrypt" certificate issuer.
 # One of 'production' or 'staging'
 {{cookiecutter.var_prefix}}_cert_issuer: production
+# And the maximum size of a body for an upload.
+#'0' implies unlimited, nginx default is typically 1m.
+# Part of the nginx ingress.
+{{cookiecutter.var_prefix}}_ingress_proxy_body_size: 1m
 {% endif %}
 
 {% if cookiecutter.deployment == 'cronjob' %}
