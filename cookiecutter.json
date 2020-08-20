@@ -14,7 +14,8 @@
   "container_port": "{{ '8080' if cookiecutter.add_service=='y' else '' }}",
   "add_pvc": "n",
   "add_ingress": "{{ 'y' if cookiecutter.add_service=='y' else 'n' }}",
-  "ingress_hostname": "{{ 'pysimple.informaticsmatters.org' if cookiecutter.add_ingress=='y' else '' }}",
+  "ingress_hostname": "{{ 'demo.informaticsmatters.org' if cookiecutter.add_ingress=='y' else '' }}",
+  "ingress_path": "{{ 'pysimple' if cookiecutter.add_ingress=='y' else '' }}",
   "add_secret": "n",
   "add_configmap": "n"
 }

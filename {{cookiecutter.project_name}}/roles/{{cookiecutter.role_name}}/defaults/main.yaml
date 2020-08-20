@@ -23,7 +23,8 @@
 
 {% if cookiecutter.add_ingress|lower in ['y'] %}
 # The ingress hostname (http/https assumed)
-{{cookiecutter.var_prefix}}_hostname: {{cookiecutter.ingress_hostname}}
+{{cookiecutter.var_prefix}}_hostname: '{{cookiecutter.ingress_hostname}}'
+{{cookiecutter.var_prefix}}_hostname_path: '{{cookiecutter.ingress_path}}'
 # The ingress "let's Encrypt" certificate issuer.
 # One of 'production' or 'staging'
 {{cookiecutter.var_prefix}}_cert_issuer: production
