@@ -2,6 +2,8 @@
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/informaticsmatters/cookiecutter-ansible-kubernetes)
 
+[![CodeFactor](https://www.codefactor.io/repository/github/informaticsmatters/cookiecutter-ansible-kubernetes/badge)](https://www.codefactor.io/repository/github/informaticsmatters/cookiecutter-ansible-kubernetes)
+
 A [cookiecutter] template repository to create projects that contain an
 [Ansible] **playbook** (and a **role**) using the built-in [k8s module]
 to to deploy container images as Kubernetes applications.
