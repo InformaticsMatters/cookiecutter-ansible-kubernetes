@@ -9,7 +9,7 @@ A [cookiecutter] template repository to create projects that contain an
 to to deploy container images as Kubernetes applications.
 
 Guided cookiecutter questions enable you to create a pre-formatted project
-that can be a Kubernetes **CronJob**, **Deployment**, **Job** or
+that can be a Kubernetes **CronJob**, **DaemonSet**, **Deployment**, **Job** or
 **StatefulSet**. You can also decide whether you want to get started with
 a **PVC** (attached to the application container) and an example **Secret** and
 **ConfigMap**.

@@ -40,16 +40,19 @@ if '{{cookiecutter.add_secret|lower}}' in ['n']:
 # Delete files that don't apply...
 
 if '{{cookiecutter.deployment}}' == 'cronjob':
-    for basename in ['deployment', 'job', 'statefulset']:
+    for basename in ['deployment', 'daemonset', 'job', 'statefulset']:
+        delete_template_file(basename)
+if '{{cookiecutter.deployment}}' == 'daemonset':
+    for basename in ['cronjob', 'deployment', 'job', 'statefulset']:
         delete_template_file(basename)
 if '{{cookiecutter.deployment}}' == 'deployment':
-    for basename in ['cronjob', 'job', 'statefulset']:
+    for basename in ['cronjob', 'daemonset', 'job', 'statefulset']:
         delete_template_file(basename)
 elif '{{cookiecutter.deployment}}' == 'job':
-    for basename in ['cronjob', 'deployment', 'statefulset']:
+    for basename in ['cronjob', 'daemonset', 'deployment', 'statefulset']:
         delete_template_file(basename)
 elif '{{cookiecutter.deployment}}' == 'statefulset':
-    for basename in ['cronjob', 'deployment', 'job']:
+    for basename in ['cronjob', 'daemonset', 'deployment', 'job']:
         delete_template_file(basename)
 
 # Now remove consecutive blank lines from all the files in 'roles'...

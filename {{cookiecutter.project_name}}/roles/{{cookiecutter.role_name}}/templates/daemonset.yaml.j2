@@ -1,0 +1,98 @@
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: {{cookiecutter.role_name}}
+  namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
+spec:
+  selector:
+    matchLabels:
+      name: {{cookiecutter.role_name}}
+  template:
+    metadata:
+      name: {{cookiecutter.role_name}}
+      labels:
+        name: {{cookiecutter.role_name}}
+    spec:
+      serviceAccountName: {{cookiecutter.role_name}}
+
+      # Tolerate all possible Node taints - typical for DaemonSets.
+      # This permits the Pod to run on a node regardless of the node's taint.
+      tolerations:
+      - operator: Exists
+
+      containers:
+      - name: {{cookiecutter.role_name}}
+        image: {{ "{{" }} {{cookiecutter.var_prefix}}_image_name {{ "}}" }}:{{ "{{" }} {{cookiecutter.var_prefix}}_image_tag {{ "}}" }}
+{{ "{%" }} if {{cookiecutter.var_prefix}}_image_tag in ['latest', 'stable'] {{ "%}" }}
+        imagePullPolicy: Always
+{{ "{%" }} else {{ "%}" }}
+        imagePullPolicy: IfNotPresent
+{{ "{%" }} endif {{ "%}" }}
+        terminationMessagePolicy: FallbackToLogsOnError
+{%- if cookiecutter.container_port %}
+        ports:
+        - containerPort: {{cookiecutter.container_port}}
+          name: http
+{% endif %}
+        env:
+        - name: EXAMPLE_ENV
+          value: '1'
+{%- if cookiecutter.add_cicd_trigger|lower == 'y' %}
+        # CICD_TRIGGER_ID is variable whose value is used to force
+        # a redeployment of the underlying containers. This is used in
+        # situations where the origin image's tag may not have changed
+        # (e.g. it's 'latest' or 'stable') but a new build is expected to
+        # be available. Without changing something in the Deployment spec
+        # a roll-out will not occur if the tag has not changed.
+        - name: CICD_TRIGGER_ID
+          value: '{{ "{{" }} ansible_date_time.iso8601_micro {{ "}}" }}'
+{%- endif %}
+{%- if cookiecutter.add_probes|lower == 'y' %}
+        readinessProbe:
+          tcpSocket:
+            port: {{cookiecutter.container_port}}
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+          periodSeconds: 20
+          successThreshold: 1
+          failureThreshold: 6
+        livenessProbe:
+          tcpSocket:
+            port: {{cookiecutter.container_port}}
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+          periodSeconds: 20
+          successThreshold: 1
+          failureThreshold: 6
+{%- endif %}
+        resources:
+          requests:
+            cpu: {{ "{{" }} {{cookiecutter.var_prefix}}_cpu_request {{ "}}" }}
+            memory: {{ "{{" }} {{cookiecutter.var_prefix}}_mem_request {{ "}}" }}
+{{ "{%" }} if {{cookiecutter.var_prefix}}_cpu_limit or {{cookiecutter.var_prefix}}_mem_limit {{ "%}" }}
+          limits:
+{{ "{%" }} if {{cookiecutter.var_prefix}}_cpu_limit {{ "%}" }}
+            cpu: {{ "{{" }} {{cookiecutter.var_prefix}}_cpu_limit {{ "}}" }}
+{{ "{%" }} endif {{ "%}" }}
+{{ "{%" }} if {{cookiecutter.var_prefix}}_mem_limit {{ "%}" }}
+            memory: {{ "{{" }} {{cookiecutter.var_prefix}}_mem_limit {{ "}}" }}
+{{ "{%" }} endif {{ "%}" }}
+{{ "{%" }} endif {{ "%}" }}
+{%- if cookiecutter.add_pvc|lower == 'y' %}
+        volumeMounts:
+        - mountPath: /volume
+          name: pvc-volume
+{% endif %}
+
+{% if cookiecutter.add_pvc|lower == 'y' %}
+      volumes:
+      - name: pvc-volume
+        persistentVolumeClaim:
+          claimName: {{cookiecutter.role_name}}
+{% endif %}
+
+{% if cookiecutter.add_secret|lower == 'y' %}
+      imagePullSecrets:
+      - name: {{cookiecutter.role_name}}
+{% endif %}
