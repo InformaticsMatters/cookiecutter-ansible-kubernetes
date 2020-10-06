@@ -38,6 +38,10 @@ spec:
 {{ "{%" }} else {{ "%}" }}
         imagePullPolicy: IfNotPresent
 {{ "{%" }} endif {{ "%}" }}
+        # The default termination log (here for clarity)
+        # But also fallback to stdout logs on error
+        # if there is no termination log.
+        terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: FallbackToLogsOnError
 {%- if cookiecutter.container_port %}
         ports:
