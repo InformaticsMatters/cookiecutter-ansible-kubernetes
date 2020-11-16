@@ -4,7 +4,7 @@
   "psp": "im-core-unrestricted",
   "role_name": "{{ cookiecutter.namespace }}",
   "image_name": "alanbchristie/pysimple",
-  "image_tag": "2019.8",
+  "image_tag": "2020.1",
   "var_prefix": "ps",
   "deployment": ["cronjob", "daemonset", "deployment", "job", "statefulset"],
   "wait_for_job": "{{ 'y' if cookiecutter.deployment in ['job'] else 'n' }}",

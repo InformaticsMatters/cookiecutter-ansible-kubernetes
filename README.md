@@ -30,6 +30,13 @@ and configure Travis accordingly).
 This is all down to cookiecutter. Once you've [installed] cookiecutter
 you can prepare an application using this project's GitHub reference: -
 
+Consider creating a virtual environment to run the cookie-cutter: -
+
+    $ python -m venv ~/.venv/cookiecutter-ansible-kubernetes
+    $ source ~/.venv/cookiecutter-ansible-kubernetes/bin/activate
+    $ pip install --upgrade pip
+    $ pip install -r requirements.txt
+
     $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes \
         --overwrite-if-exists
 
@@ -53,9 +60,8 @@ expected by the [k8s module], i.e.: -
 Then, consider creating a virtual environment to deploy the application
 using the project's generated requirements: -
 
-    $ conda create -n $(basename $PWD) python=3.8
-    [...]
-    $ conda activate $(basename $PWD)
+    $ python -m venv ~/.venv/$(basename $PWD)
+    $ source ~/.venv/$(basename $PWD)/bin/activate
     $ pip install -r requirements.txt
     
 Then run the project playbook...
