@@ -81,6 +81,15 @@
 
 # Deploy the application...
 
+{% if cookiecutter.deployment == 'job' %}
+- name: Remove prior Job
+  k8s:
+    definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
+    state: absent
+    wait: yes
+    wait_timeout: "{{ "{{" }} pod_ready_timeout {{ "}}" }}"
+{% endif %}
+
 - name: Deploy application
   k8s:
     definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"

@@ -5,6 +5,7 @@ metadata:
   name: {{cookiecutter.role_name}}
   namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
 spec:
+  backoffLimit: 1
   template:
     metadata:
       labels:
