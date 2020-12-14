@@ -7,7 +7,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: "letsencrypt-nginx-{{ "{{" }} {{cookiecutter.var_prefix}}_cert_issuer|lower {{ "}}" }}"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "{{ "{{" }} {{cookiecutter.var_prefix}}_ingress_proxy_body_size {{ "}}" }}"
     # For a full set of nginx annotations see...
