@@ -6,6 +6,7 @@ yaml-files:
 - '.yamllint'
 
 ignore: |
+  .github/
   roles/{{cookiecutter.role_name}}/templates/deployment.yaml.j2
   roles/{{cookiecutter.role_name}}/templates/job.yaml.j2
   roles/{{cookiecutter.role_name}}/templates/statefulset.yaml.j2
