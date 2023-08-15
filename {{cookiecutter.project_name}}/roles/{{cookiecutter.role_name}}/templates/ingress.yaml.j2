@@ -1,6 +1,6 @@
 ---
 kind: Ingress
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 metadata:
   name: {{cookiecutter.role_name}}
   namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
@@ -13,6 +13,7 @@ metadata:
     # For a full set of nginx annotations see...
     # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
     - {{ "{{" }} {{cookiecutter.var_prefix}}_hostname {{ "}}" }}
@@ -22,6 +23,9 @@ spec:
     http:
       paths:
       - path: /{{ "{{" }} {{cookiecutter.var_prefix}}_hostname_path {{ "}}" }}(/|$)(.*)
+        pathType: Prefix
         backend:
-          serviceName: {{cookiecutter.role_name}}
-          servicePort: http
+          service:
+            name: {{cookiecutter.role_name}}
+            port:
+              name: http
