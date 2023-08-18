@@ -37,7 +37,7 @@
 {{cookiecutter.var_prefix}}_ingress_proxy_body_size: 1m
 {% endif %}
 
-{% if cookiecutter.deployment == 'cronjob' %}
+{% if cookiecutter.kind == 'cronjob' %}
 # The CronJob Schedule
 # Here we run at 04:07 every day.
 {{cookiecutter.var_prefix}}_schedule: '7 4 * * *'

@@ -51,7 +51,7 @@
     wait_timeout: "{{ "{{" }} wait_timeout {{ "}}" }}"
 {% endif %}
 
-{% if cookiecutter.deployment == 'job' %}
+{% if cookiecutter.kind == 'job' %}
 # Delete the Pods left behind that are Completed ('Succeeded').
 # Kubernetes *DOES NOT* remove these Job-based Pods automatically
 # (see https://kubernetes.io/docs/concepts/workloads/controllers/job/).
@@ -81,7 +81,7 @@
 
 # Deploy the application...
 
-{% if cookiecutter.deployment == 'job' %}
+{% if cookiecutter.kind == 'job' %}
 - name: Remove prior Job
   kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
@@ -99,13 +99,13 @@
 {%- if cookiecutter.add_secret | lower in ['y'] %}
   - secret
 {%- endif %}
-{%- if cookiecutter.deployment == 'cronjob' %}
+{%- if cookiecutter.kind == 'cronjob' %}
   - cronjob
-{%- elif cookiecutter.deployment == 'deployment' %}
+{%- elif cookiecutter.kind == 'deployment' %}
   - deployment
-{%- elif cookiecutter.deployment == 'job' %}
+{%- elif cookiecutter.kind == 'job' %}
   - job
-{%- elif cookiecutter.deployment == 'statefulset' %}
+{%- elif cookiecutter.kind == 'statefulset' %}
   - statefulset
 {%- endif %}
 {%- if cookiecutter.add_service | lower in ['y'] %}
@@ -115,7 +115,7 @@
   - ingress
 {%- endif %}
 
-{% if cookiecutter.deployment == 'job' and cookiecutter.wait_for_job == 'y' %}
+{% if cookiecutter.kind == 'job' and cookiecutter.wait_for_job == 'y' %}
 # It's a Job - so wait for completion
 
 - name: Wait for Job

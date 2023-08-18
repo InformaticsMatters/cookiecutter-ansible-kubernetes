@@ -39,19 +39,19 @@ if '{{cookiecutter.add_secret|lower}}' in ['n']:
 # Can only be one of deployment, job, statefulset etc.
 # Delete files that don't apply...
 
-if '{{cookiecutter.deployment}}' == 'cronjob':
+if '{{cookiecutter.kind}}' == 'cronjob':
     for basename in ['deployment', 'daemonset', 'job', 'statefulset']:
         delete_template_file(basename)
-if '{{cookiecutter.deployment}}' == 'daemonset':
+if '{{cookiecutter.kind}}' == 'daemonset':
     for basename in ['cronjob', 'deployment', 'job', 'statefulset']:
         delete_template_file(basename)
-if '{{cookiecutter.deployment}}' == 'deployment':
+if '{{cookiecutter.kind}}' == 'deployment':
     for basename in ['cronjob', 'daemonset', 'job', 'statefulset']:
         delete_template_file(basename)
-elif '{{cookiecutter.deployment}}' == 'job':
+elif '{{cookiecutter.kind}}' == 'job':
     for basename in ['cronjob', 'daemonset', 'deployment', 'statefulset']:
         delete_template_file(basename)
-elif '{{cookiecutter.deployment}}' == 'statefulset':
+elif '{{cookiecutter.kind}}' == 'statefulset':
     for basename in ['cronjob', 'daemonset', 'deployment', 'job']:
         delete_template_file(basename)
 
