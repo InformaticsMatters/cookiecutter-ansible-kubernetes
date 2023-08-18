@@ -6,7 +6,7 @@
   "image_name": "alanbchristie/pysimple",
   "image_tag": "latest",
   "var_prefix": "ps",
-  "deployment": ["cronjob", "daemonset", "deployment", "job", "statefulset"],
+  "deployment": ["deployment", "statefulset", "job", "cronjob", "daemonset"],
   "wait_for_job": "{{ 'y' if cookiecutter.deployment in ['job'] else 'n' }}",
   "add_probes": "{{ 'y' if cookiecutter.deployment in ['deployment', 'daemonset', 'statefulset'] else 'n' }}",
   "add_cicd_trigger": "{{ 'y' if cookiecutter.deployment in ['deployment', 'statefulset'] else 'n' }}",
