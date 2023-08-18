@@ -3,16 +3,16 @@
 # Common playbook preparation.
 
 # Expose ansible version
-- debug:
+- ansible.builtin.debug:
     var: ansible_version.full
 
 # Expose all the installed Python modules...
 
 - name: Capture pip freeze
-  command: pip freeze
+  ansible.builtin.command: pip freeze
   register: freeze
   changed_when: false
 
 - name: Display pip freeze
-  debug:
+  ansible.builtin.debug:
     var: freeze.stdout_lines

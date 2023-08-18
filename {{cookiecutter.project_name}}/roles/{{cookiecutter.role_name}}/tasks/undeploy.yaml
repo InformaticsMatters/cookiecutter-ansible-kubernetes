@@ -6,7 +6,7 @@
 # simply delete the namespace.
 
 - name: Delete namespace
-  k8s:
+  kubernetes.core.k8s:
     state: absent
     definition: "{{ "{{" }} lookup('template', 'namespace.yaml.j2') {{ "}}" }}"
     wait: yes

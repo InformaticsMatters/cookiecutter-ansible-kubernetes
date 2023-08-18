@@ -3,12 +3,12 @@
 # Create the namespace and other basic materials
 
 - name: Create namespace ({{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }})
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', 'namespace.yaml.j2') {{ "}}" }}"
     wait: yes
 
 - name: Create namespace material
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
     wait: yes
   loop:
@@ -22,7 +22,7 @@
 
 {% if cookiecutter.add_ingress | lower in ['y'] %}
 - name: Relax ({{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }} 'default' service account (for cert-manager)
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', 'rolebinding-default-sa.yaml.j2') {{ "}}" }}"
     wait: yes
 {% endif %}
@@ -32,7 +32,7 @@
 # and create the volume claim
 
 - name: Get {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: StorageClass
     name: "{{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass }}"
   register: sc_result
@@ -60,7 +60,7 @@
 # that have Succeeded and then deletes them.
 
 - name: Get Succeeded Job Pods
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: Pod
     namespace: "{{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}"
     label_selectors:
@@ -70,7 +70,7 @@
   register: pods_result
 
 - name: Delete Succeeded Job Pods
-  k8s:
+  kubernetes.core.k8s:
     kind: Pod
     namespace: "{{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}"
     name: "{{ "{{" }} item.metadata.name {{ "}}" }}"
@@ -83,7 +83,7 @@
 
 {% if cookiecutter.deployment == 'job' %}
 - name: Remove prior Job
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
     state: absent
     wait: yes
@@ -91,7 +91,7 @@
 {% endif %}
 
 - name: Deploy application
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
     wait: yes
     wait_timeout: "{{ "{{" }} pod_ready_timeout {{ "}}" }}"
@@ -119,7 +119,7 @@
 # It's a Job - so wait for completion
 
 - name: Wait for Job
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: Job
     namespace: "{{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}"
     name: {{cookiecutter.role_name}}

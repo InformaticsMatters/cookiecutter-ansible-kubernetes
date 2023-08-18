@@ -21,13 +21,12 @@ kubernetes `templates` that it creates. This is finished-off
 with root-level `requirements.txt`, `site.yaml`, `inventory.yaml` and
 `ansible.cfg` so you can deploy the application *out-of-the-box*.
 
-Additionally, the generated project contains a `.gitignore`, `.travis.yml`,
+Additionally, the generated project contains a `.gitignore`, `workflows`,
 `.yamllint` and `build-requirements.txt` to perform CI/CD lint and ansible
-checking of the project using [Travis] (once you commit the project to GitHub
-and configure Travis accordingly).
+checking of the project using GitHub Actions (once you commit the project to GitHub).
 
 ## Creating an application
-This is all down to cookiecutter. Once you've [installed] cookiecutter
+This is all down to cookiecutter. Once you've installed cookiecutter
 you can prepare an application using this project's GitHub reference: -
 
 Consider creating a virtual environment to run the cookie-cutter: -
@@ -49,20 +48,18 @@ You'll probably want to adjust the application's role or templates before you
 deploy it but, for the very simplest applications, you might be ready to go
 straight away.
  
-To run the produced playbook you will need suitable credentials for your
-Kubernetes cluster that allow you to create namespaces and deploy all of
-the objects. Set the cluster credentials using the environment variables
-expected by the [k8s module], i.e.: -
+To run the produced playbook you will need a suitable `KUBECONFIG` for your
+Kubernetes cluster that allows you to create namespaces and deploy all of
+the objects: -
 
-    $ export K8S_AUTH_HOST=https://example.com
-    $ export K8S_AUTH_API_KEY=000000
-    $ export K8S_AUTH_VERIFY_SSL=no
+    $ export KUBECONFIG=~/k8s-config/config-local
 
 Then, consider creating a virtual environment to deploy the application
 using the project's generated requirements: -
 
     $ python -m venv ~/.venv/$(basename $PWD)
     $ source ~/.venv/$(basename $PWD)/bin/activate
+    $ pip install --upgrade pip
     $ pip install -r requirements.txt
     
 Then run the project playbook...
@@ -81,6 +78,3 @@ this might be: -
 
 [ansible]: https://github.com/ansible/ansible
 [cookiecutter]: https://cookiecutter.readthedocs.io
-[installed]: https://cookiecutter.readthedocs.io/en/1.7.2/installation.html
-[k8s module]: https://docs.ansible.com/ansible/latest/modules/k8s_module.html
-[travis]: https://travis-ci.com

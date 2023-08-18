@@ -1,10 +1,10 @@
 ---
 
 - name: Run prep
-  include_tasks: prep.yaml
+  ansible.builtin.include_tasks: prep.yaml
 
 - name: Check KUBECONFIG
-  assert:
+  ansible.builtin.assert:
     that:
     - {{cookiecutter.var_prefix}}_kubeconfig | string | length != 0
 
@@ -15,8 +15,8 @@
   block:
 
   - name: Run deploy play
-    include_tasks: deploy.yaml
+    ansible.builtin.include_tasks: deploy.yaml
     when: {{cookiecutter.var_prefix}}_state | string == 'present'
   - name: Run undeploy play
-    include_tasks: undeploy.yaml
+    ansible.builtin.include_tasks: undeploy.yaml
     when: {{cookiecutter.var_prefix}}_state | string == 'absent'

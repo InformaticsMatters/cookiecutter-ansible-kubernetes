@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
   tasks:
-  - include_role:
+  - name: Apply the role
+    ansible.builtin.include_role:
       name: {{cookiecutter.role_name}}
