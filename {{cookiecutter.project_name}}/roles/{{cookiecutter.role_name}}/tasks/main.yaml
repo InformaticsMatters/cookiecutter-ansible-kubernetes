@@ -11,7 +11,7 @@
 - name: Deploy
   module_defaults:
     group/k8s:
-      kubeconfig: "{{ dt_kubeconfig }}"
+      kubeconfig: "{{ "{{" }} {{cookiecutter.var_prefix}}_kubeconfig {{ "}}" }}"
   block:
 
   - name: Run deploy play

@@ -16,18 +16,18 @@
   - role
   - rolebinding-role-sa
   - limitrange
-{%- if cookiecutter.add_configmap|lower in ['y'] %}
+{%- if cookiecutter.add_configmap | lower in ['y'] %}
   - configmap
 {% endif %}
 
-{% if cookiecutter.add_ingress|lower in ['y'] %}
+{% if cookiecutter.add_ingress | lower in ['y'] %}
 - name: Relax ({{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }} 'default' service account (for cert-manager)
   k8s:
     definition: "{{ "{{" }} lookup('template', 'rolebinding-default-sa.yaml.j2') {{ "}}" }}"
     wait: yes
 {% endif %}
 
-{% if cookiecutter.add_pvc|lower in ['y'] %}
+{% if cookiecutter.add_pvc | lower in ['y'] %}
 # Check storage class exists
 # and create the volume claim
 
@@ -40,7 +40,7 @@
 
 - name: Assert {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass
   assert:
-    that: sc_result.resources|length == 1
+    that: sc_result.resources | length == 1
     fail_msg: The {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass must be available on the cluster
   when: {{cookiecutter.var_prefix}}_volume_storageclass != " "
 
@@ -76,7 +76,7 @@
     name: "{{ "{{" }} item.metadata.name {{ "}}" }}"
     state: absent
   loop: "{{ "{{" }} pods_result.resources {{ "}}" }}"
-  when: pods_result.resources|length > 0
+  when: pods_result.resources | length > 0
 {% endif %}
 
 # Deploy the application...
@@ -96,7 +96,7 @@
     wait: yes
     wait_timeout: "{{ "{{" }} pod_ready_timeout {{ "}}" }}"
   loop:
-{%- if cookiecutter.add_secret|lower in ['y'] %}
+{%- if cookiecutter.add_secret | lower in ['y'] %}
   - secret
 {%- endif %}
 {%- if cookiecutter.deployment == 'cronjob' %}
@@ -108,10 +108,10 @@
 {%- elif cookiecutter.deployment == 'statefulset' %}
   - statefulset
 {%- endif %}
-{%- if cookiecutter.add_service|lower in ['y'] %}
+{%- if cookiecutter.add_service | lower in ['y'] %}
   - service
 {%- endif %}
-{%- if cookiecutter.add_ingress|lower in ['y'] %}
+{%- if cookiecutter.add_ingress | lower in ['y'] %}
   - ingress
 {%- endif %}
 
@@ -128,7 +128,7 @@
     result.resources[0].status.completionTime is defined
     or result.resources[0].status.failed is defined
   delay: 15
-  retries: "{{ "{{" }} (wait_timeout|int / 15)|int {{ "}}" }}"
+  retries: "{{ "{{" }} (wait_timeout | int / 15) | int {{ "}}" }}"
 
 - name: Display Job status
   debug:
