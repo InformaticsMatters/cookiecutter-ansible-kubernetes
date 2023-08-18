@@ -34,14 +34,14 @@ Consider creating a virtual environment and then run the cookie-cutter
 from a directory where you want your kubernetes-based Ansible project to be created.
 You will eventually commit the project you create to GitHub.
 
-    $ python -m venv ~/.venv/cookiecutter-ansible-kubernetes
-    $ source ~/.venv/cookiecutter-ansible-kubernetes/bin/activate
-    $ pip install --upgrade pip
-    
-    $ pip install cookiecutter==2.*
+    python -m venv ~/.venv/cookiecutter-ansible-kubernetes
+    source ~/.venv/cookiecutter-ansible-kubernetes/bin/activate
+    pip install --upgrade pip
 
-    $ cd ~/Code
-    $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes
+    pip install cookiecutter==2.*
+
+    cd ~/Code
+    cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes
 
 The resultant project is created in the current directory, in a directory
 named after your chosen **project_name**.
@@ -53,26 +53,26 @@ straight away.
  
 Move to the project directory and install the requirements: -
 
-    $ cd <project_name>
-    $ pip install -r requirements.txt
-    
+    cd <project_name>
+    pip install -r requirements.txt
+
 To run the produced playbook you will need a suitable `KUBECONFIG` for your
 Kubernetes cluster that allows you to create namespaces and deploy all of
 the objects: -
 
-    $ export KUBECONFIG=~/k8s-config/config-local
+    export KUBECONFIG=~/k8s-config/config-local
 
 Then run the `site.yaml` playbook in the project's directory...
 
-    $ ansible-playbook site.yaml
+    ansible-playbook site.yaml
 
 ## Un-deploying the application
 Run the site playbook, setting your application's `state` variable to
 `absent`. Depending on what you used for the cookiecutter **var_prefix**
 this might be: -
 
-    $ ansible-playbook site.yaml -e cc_state=absent
-    
+    ansible-playbook site.yaml -e cc_state=absent
+
 ---
 
 [ansible]: https://github.com/ansible/ansible
