@@ -27,18 +27,23 @@ checking of the project using GitHub Actions (once you commit the project to Git
 
 ## Creating an application
 This is all down to cookiecutter. Once you've installed cookiecutter
-you can prepare an application using this project's GitHub reference: -
+you can prepare an application using this project's GitHub reference.
 
-Consider creating a virtual environment to run the cookie-cutter: -
+>   Importantly **YOU DO NOT NEED TO CLONE THIS REPOSITORY** to use the cookiecutter.
+    The cookiecutter will clone and use the repository for you.
+
+Consider creating a virtual environment to run the cookie-cutter and then run it
+from a directory where you want your kubernetes-based Ansible project to be created.
+You will eventually commit the project you create to GitHub.
 
     $ python -m venv venv
     $ source venv/bin/activate
     $ pip install --upgrade pip
     
-    $ pip install -r requirements.txt
+    $ pip install cookiecutter==2.*
 
-    $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes \
-        --overwrite-if-exists
+    $ cd ~/Code
+    $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes
 
 The resultant project is created in the current directory, in a directory
 named after your chosen **project_name**.
@@ -57,13 +62,11 @@ the objects: -
 Then, consider creating a virtual environment to deploy the application
 using the project's generated requirements: -
 
-    $ python -m venv ~/.venv/$(basename $PWD)
-    $ source ~/.venv/$(basename $PWD)/bin/activate
-    $ pip install --upgrade pip
-    $ pip install -r requirements.txt
+    $ pip install ansible==8.*
     
-Then run the project playbook...
+Then run the `site.yaml` playbook in the project's directory...
 
+    $ cd <project_name>
     $ ansible-playbook site.yaml
 
 ## Un-deploying the application
@@ -71,8 +74,7 @@ Run the site playbook, setting your application's `state` variable to
 `absent`. Depending on what you used for the cookiecutter **var_prefix**
 this might be: -
 
-    $ ansible-playbook site.yaml \
-        -e ps_state=absent
+    $ ansible-playbook site.yaml -e ps_state=absent
     
 ---
 
