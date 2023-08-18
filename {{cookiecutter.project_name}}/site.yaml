@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Apply the role using the localhost
+  hosts: localhost
   tasks:
   - name: Apply the role
     ansible.builtin.include_role:

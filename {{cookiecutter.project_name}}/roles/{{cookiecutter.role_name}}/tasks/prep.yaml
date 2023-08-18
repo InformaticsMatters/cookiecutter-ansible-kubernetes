@@ -3,7 +3,8 @@
 # Common playbook preparation.
 
 # Expose ansible version
-- ansible.builtin.debug:
+- name: Display Ansible version
+  ansible.builtin.debug:
     var: ansible_version.full
 
 # Expose all the installed Python modules...
