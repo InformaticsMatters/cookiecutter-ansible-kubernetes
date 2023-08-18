@@ -15,7 +15,7 @@
   "container_port": "{{ '8080' if cookiecutter.add_service == 'y' else '' }}",
   "add_pvc": "y",
   "add_ingress": "{{ 'y' if cookiecutter.add_service == 'y' else 'n' }}",
-  "ingress_hostname": "{{ 'demo.informaticsmatters.org' if cookiecutter.add_ingress == 'y' else '' }}",
+  "ingress_hostname": "{{ 'demo.informaticsmatters.com' if cookiecutter.add_ingress == 'y' else '' }}",
   "add_secret": "n",
   "add_configmap": "n",
 
@@ -40,11 +40,11 @@
     "add_probes": "Should I add [bold yellow]Readiness[/] and [bold yellow]Liveness[/] probes",
     "add_cicd_trigger": "Should I add a CICD trigger",
     "add_service": "Should I add a [bold yellow]Service[/]",
-    "container_port": "Does the application have a container [bold yellow]Port[/]",
-    "add_pvc": "Should I add [bold yellow]PersistentVolumeClaim[/] to the application",
+    "container_port": "Does the application container image have a [bold yellow]Port[/]",
+    "add_pvc": "Should I add a [bold yellow]PersistentVolumeClaim[/] to the application",
     "add_ingress": "Should I add an [bold yellow]Ingress[/] to the application",
     "ingress_hostname": "What [bold yellow]Hostname[/] should I use for the Ingress",
     "add_secret": "Should I add a [bold yellow]Secret[/], to use as an [bold yellow]ImagePullSecret[/]",
-    "add_configmap": "Should I add a [bold yellow]ConfigMap[/] to the deployment"
+    "add_configmap": "Should I add a [bold yellow]ConfigMap[/]"
   }
 }
