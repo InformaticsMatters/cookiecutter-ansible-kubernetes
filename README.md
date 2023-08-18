@@ -32,9 +32,10 @@ you can prepare an application using this project's GitHub reference: -
 
 Consider creating a virtual environment to run the cookie-cutter: -
 
-    $ python -m venv ~/.venv/cookiecutter-ansible-kubernetes
-    $ source ~/.venv/cookiecutter-ansible-kubernetes/bin/activate
+    $ python -m venv venv
+    $ source venv/bin/activate
     $ pip install --upgrade pip
+    
     $ pip install -r requirements.txt
 
     $ cookiecutter gh:informaticsmatters/cookiecutter-ansible-kubernetes \

@@ -1,28 +1,22 @@
 ---
 
-- include_tasks: prep.yaml
+- name: Run prep
+  include_tasks: prep.yaml
 
-# A kubernetes host and an API key must be set.
-# Either environment variables wil have been set by the user
-# or AWX 'kubernetes' credentials will have injected them.
-# Either way the variables 'k8s_auth_host' and
-# 'k8s_auth_api_key' must have been set.
-- name: Assert authentication
+- name: Check KUBECONFIG
   assert:
     that:
-    - k8s_auth_host|length > 0
-    - k8s_auth_api_key|length > 0
+    - {{cookiecutter.var_prefix}}_kubeconfig | string | length != 0
 
-# Go...
-
-- block:
-
-  - include_tasks: deploy.yaml
-    when: {{cookiecutter.var_prefix}}_state|string == 'present'
-  - include_tasks: undeploy.yaml
-    when: {{cookiecutter.var_prefix}}_state|string == 'absent'
-
+- name: Deploy
   module_defaults:
     group/k8s:
-      host: "{{ "{{" }} k8s_auth_host {{ "}}" }}"
-      api_key: "{{ "{{" }} k8s_auth_api_key {{ "}}" }}"
+      kubeconfig: "{{ dt_kubeconfig }}"
+  block:
+
+  - name: Run deploy play
+    include_tasks: deploy.yaml
+    when: {{cookiecutter.var_prefix}}_state | string == 'present'
+  - name: Run undeploy play
+    include_tasks: undeploy.yaml
+    when: {{cookiecutter.var_prefix}}_state | string == 'absent'

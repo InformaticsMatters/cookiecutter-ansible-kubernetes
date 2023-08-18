@@ -26,10 +26,8 @@ spec:
           - weight: 1
             preference:
               matchExpressions:
-              - key: purpose
-                operator: In
-                values:
-                - {{ "{{" }} {{cookiecutter.var_prefix}}_node_purpose {{ "}}" }}
+              - key: informaticsmatters.com/purpose-{{ "{{" }} {{cookiecutter.var_prefix}}_node_purpose {{ "}}" }}
+                operator: Exists
 
       containers:
       - name: {{cookiecutter.role_name}}

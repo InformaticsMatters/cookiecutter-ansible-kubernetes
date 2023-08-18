@@ -22,14 +22,12 @@ spec:
           # node selection affinity...
           affinity:
             nodeAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 1
-                preference:
-                  matchExpressions:
-                  - key: purpose
-                    operator: In
-                    values:
-                    - {{ "{{" }} {{cookiecutter.var_prefix}}_node_purpose {{ "}}" }}
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                - key: informaticsmatters.com/purpose-{{ "{{" }} {{cookiecutter.var_prefix}}_node_purpose {{ "}}" }}
+                  operator: Exists
 
           containers:
           - name: {{cookiecutter.role_name}}
