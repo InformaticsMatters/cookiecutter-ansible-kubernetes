@@ -2,6 +2,8 @@
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/informaticsmatters/cookiecutter-ansible-kubernetes)
 
+![GitHub](https://img.shields.io/github/license/informaticsmatters/cookiecutter-ansible-kubernetes)
+[![Cut and lint](https://github.com/InformaticsMatters/cookiecutter-ansible-kubernetes/actions/workflows/test.yaml/badge.svg)](https://github.com/InformaticsMatters/cookiecutter-ansible-kubernetes/actions/workflows/test.yaml)
 [![CodeFactor](https://www.codefactor.io/repository/github/informaticsmatters/cookiecutter-ansible-kubernetes/badge)](https://www.codefactor.io/repository/github/informaticsmatters/cookiecutter-ansible-kubernetes)
 
 A [cookiecutter] template repository to create projects that contain an
