@@ -1,0 +1,27 @@
+---
+name: Cut and lint
+on:
+- push
+jobs:
+  cut-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.11'
+    # Run the cookie-cutter on the current directory
+    - name: Cut
+      run: |
+        pip install cookiecutter==2.*
+        cookiecutter --no-input .
+    # Lint the cut playbook
+    - name: Lint the cut
+      run: |
+        cd pysimple-ansible
+        pip install -r build-requirements.txt
+        yamllint .
+        find . -type f -name '*.yaml.j2' -exec yamllint {} +
+        ansible-lint
