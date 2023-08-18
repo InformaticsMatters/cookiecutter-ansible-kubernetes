@@ -39,13 +39,13 @@
   when: {{cookiecutter.var_prefix}}_volume_storageclass != " "
 
 - name: Assert {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass
-  assert:
+  ansible.builtin.assert:
     that: sc_result.resources | length == 1
     fail_msg: The {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }} StorageClass must be available on the cluster
   when: {{cookiecutter.var_prefix}}_volume_storageclass != " "
 
 - name: Create volume claim
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', 'pvc.yaml.j2') {{ "}}" }}"
     wait: yes
     wait_timeout: "{{ "{{" }} wait_timeout {{ "}}" }}"
@@ -131,11 +131,11 @@
   retries: "{{ "{{" }} (wait_timeout | int / 15) | int {{ "}}" }}"
 
 - name: Display Job status
-  debug:
+  ansible.builtin.debug:
     var: result.resources[0].status
 
 - name: Assert Job success
-  assert:
+  ansible.builtin.assert:
     that:
     - result.resources[0].status.succeeded is defined
     - result.resources[0].status.succeeded == 1
