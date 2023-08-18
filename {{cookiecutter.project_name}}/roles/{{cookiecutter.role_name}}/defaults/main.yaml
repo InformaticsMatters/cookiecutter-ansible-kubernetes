@@ -8,7 +8,7 @@
 {{cookiecutter.var_prefix}}_state: present
 
 # The KUBECONFIG file (required)
-{{cookiecutter.var_prefix}}_kubeconfig: ""
+{{cookiecutter.var_prefix}}_kubeconfig: "{{ "{{" }} lookup('env', 'KUBECONFIG') {{ "}}" }}"
 
 # The namespace to create for application deployment.
 {{cookiecutter.var_prefix}}_namespace: {{cookiecutter.namespace}}
@@ -16,8 +16,8 @@
 {% if cookiecutter.add_pvc|lower in ['y'] %}
 # Persistent volume configuration
 # The storageclass is 'blank', which implies the default class.
-{{cookiecutter.var_prefix}}_volume_storageclass: " "
-{{cookiecutter.var_prefix}}_volume_size_g: 32
+{{cookiecutter.var_prefix}}_volume_storageclass: longhorn
+{{cookiecutter.var_prefix}}_volume_size_g: 1
 {% endif %}
 
 # Details of the application container image
@@ -27,14 +27,9 @@
 {% if cookiecutter.add_ingress|lower in ['y'] %}
 # The ingress hostname (http/https assumed)
 {{cookiecutter.var_prefix}}_hostname: '{{cookiecutter.ingress_hostname}}'
-{{cookiecutter.var_prefix}}_hostname_path: '{{cookiecutter.ingress_path}}'
 # The ingress "let's Encrypt" certificate issuer.
 # One of 'production' or 'staging'
 {{cookiecutter.var_prefix}}_cert_issuer: production
-# And the maximum size of a body for an upload.
-# '0' implies unlimited, nginx default is typically 1m.
-# Part of the nginx ingress.
-{{cookiecutter.var_prefix}}_ingress_proxy_body_size: 1m
 {% endif %}
 
 {% if cookiecutter.kind == 'cronjob' %}

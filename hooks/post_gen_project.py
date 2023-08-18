@@ -42,10 +42,10 @@ if '{{cookiecutter.add_secret|lower}}' in ['n']:
 if '{{cookiecutter.kind}}' == 'cronjob':
     for basename in ['deployment', 'daemonset', 'job', 'statefulset']:
         delete_template_file(basename)
-if '{{cookiecutter.kind}}' == 'daemonset':
+elif '{{cookiecutter.kind}}' == 'daemonset':
     for basename in ['cronjob', 'deployment', 'job', 'statefulset']:
         delete_template_file(basename)
-if '{{cookiecutter.kind}}' == 'deployment':
+elif '{{cookiecutter.kind}}' == 'deployment':
     for basename in ['cronjob', 'daemonset', 'job', 'statefulset']:
         delete_template_file(basename)
 elif '{{cookiecutter.kind}}' == 'job':

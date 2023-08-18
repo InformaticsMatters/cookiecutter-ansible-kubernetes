@@ -2,16 +2,16 @@
 kind: Job
 apiVersion: batch/v1
 metadata:
-  name: {{cookiecutter.role_name}}
+  name: {{cookiecutter.object_name}}
   namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
 spec:
   backoffLimit: 1
   template:
     metadata:
       labels:
-        name: {{cookiecutter.role_name}}
+        name: {{cookiecutter.object_name}}
     spec:
-      serviceAccountName: {{cookiecutter.role_name}}
+      serviceAccountName: {{cookiecutter.object_name}}
 
       # A 'preferred' (not guaranteed)
       # node selection affinity...
@@ -25,7 +25,7 @@ spec:
               operator: Exists
 
       containers:
-      - name: {{cookiecutter.role_name}}
+      - name: {{cookiecutter.object_name}}
         image: {{ "{{" }} {{cookiecutter.var_prefix}}_image_name {{ "}}" }}:{{ "{{" }} {{cookiecutter.var_prefix}}_image_tag {{ "}}" }}
 {{ "{%" }} if {{cookiecutter.var_prefix}}_image_tag in ['latest', 'stable'] {{ "%}" }}
         imagePullPolicy: Always
@@ -63,12 +63,12 @@ spec:
       volumes:
       - name: pvc-volume
         persistentVolumeClaim:
-          claimName: {{cookiecutter.role_name}}
+          claimName: {{cookiecutter.object_name}}
 {% endif %}
 
 {% if cookiecutter.add_secret|lower == 'y' %}
       imagePullSecrets:
-      - name: {{cookiecutter.role_name}}
+      - name: {{cookiecutter.object_name}}
 {% endif %}
 
       restartPolicy: Never

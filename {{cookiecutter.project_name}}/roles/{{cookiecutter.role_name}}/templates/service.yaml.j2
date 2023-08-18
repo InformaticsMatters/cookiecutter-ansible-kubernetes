@@ -2,11 +2,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{cookiecutter.role_name}}
+  name: {{cookiecutter.object_name}}
   namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
 spec:
   selector:
-    name: {{cookiecutter.role_name}}
+    name: {{cookiecutter.object_name}}
   ports:
   - name: http
     port: 80

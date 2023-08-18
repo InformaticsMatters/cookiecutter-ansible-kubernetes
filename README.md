@@ -53,20 +53,19 @@ You'll probably want to adjust the application's role or templates before you
 deploy it but, for the very simplest applications, you might be ready to go
 straight away.
  
+Move to the project directory and install the requirements: -
+
+    $ cd <project_name>
+    $ pip install -r requirements.txt
+    
 To run the produced playbook you will need a suitable `KUBECONFIG` for your
 Kubernetes cluster that allows you to create namespaces and deploy all of
 the objects: -
 
     $ export KUBECONFIG=~/k8s-config/config-local
 
-Then, consider creating a virtual environment to deploy the application
-using the project's generated requirements: -
-
-    $ pip install ansible==8.*
-    
 Then run the `site.yaml` playbook in the project's directory...
 
-    $ cd <project_name>
     $ ansible-playbook site.yaml
 
 ## Un-deploying the application
@@ -74,7 +73,7 @@ Run the site playbook, setting your application's `state` variable to
 `absent`. Depending on what you used for the cookiecutter **var_prefix**
 this might be: -
 
-    $ ansible-playbook site.yaml -e ps_state=absent
+    $ ansible-playbook site.yaml -e cc_state=absent
     
 ---
 

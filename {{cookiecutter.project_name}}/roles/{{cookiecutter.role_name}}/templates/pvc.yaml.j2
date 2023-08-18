@@ -2,12 +2,12 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{cookiecutter.role_name}}
+  name: {{cookiecutter.object_name}}
   namespace: {{ "{{" }} {{cookiecutter.var_prefix}}_namespace {{ "}}" }}
 spec:
   accessModes:
-  - ReadWriteMany
-  storageClassName: '{{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }}'
+  - ReadWriteOnce
+  storageClassName: {{ "{{" }} {{cookiecutter.var_prefix}}_volume_storageclass {{ "}}" }}
   resources:
     requests:
-      storage: '{{ "{{" }} {{cookiecutter.var_prefix}}_volume_size_g {{ "}}" }}Gi'
+      storage: {{ "{{" }} {{cookiecutter.var_prefix}}_volume_size_g {{ "}}" }}Gi
