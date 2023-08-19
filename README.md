@@ -10,11 +10,26 @@ A [cookiecutter] template repository to create projects that contain an
 [Ansible] **playbook** (and a **role**) using its **k8s** module
 to to deploy container images as a Kubernetes application (**Pod**).
 
+Use it to quickly create a playbook to deploy a container image as a: -
+
+- **Job**
+- **CronJob**
+- **Deployment**
+- **StatefulSet**
+- **DaemonSet**
+
+With optional additional template objects to help you create: -
+
+- **Persistent Volume Claims**
+- **Config Maps**
+- **Secrets**
+- **Services**
+- **Ingresses**
+
 Guided cookie-cutter questions enable you to create a pre-formatted project
-to deploy a container image as a Kubernetes **CronJob**, **DaemonSet**, **Deployment**,
-**Job** or **StatefulSet**. You can also decide whether you want to get started with
-a **PVC** (attached to the application container), an **Ingress**, and an example
-**Secret** and **ConfigMap**.
+to deploy a container image to Kubernetes. You can also decide whether you want to get
+started with a **PVC** (attached to the application container), an **Ingress**,
+and an example **Secret** and **ConfigMap**.
 
 The cookie-cutter wraps this up with a playbook and an associated **Role** with
 pre-formatted variables defined in `defaults` and `vars` along with a series of
