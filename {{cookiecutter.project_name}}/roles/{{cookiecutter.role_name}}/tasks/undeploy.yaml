@@ -2,8 +2,8 @@
 
 # Un-deploy (uninstall).
 #
-# To un-deploy, the fastest way is to
-# simply delete the namespace.
+# To un-deploy, with no objects created outside the namespace,
+# the fastest way is to delete the namespace.
 
 - name: Delete namespace
   kubernetes.core.k8s:

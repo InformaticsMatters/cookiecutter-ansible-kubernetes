@@ -23,6 +23,15 @@ kubernetes `templates` that it creates. This is finished-off
 with root-level `requirements.txt`, `site.yaml`, `inventory.yaml` and
 `ansible.cfg` files so you can deploy the application *out-of-the-box*.
 
+The *cut* project is ready to deploy to a Kubernetes cluster from the command-line -
+you don't even need to provide a container image, you can use the default
+**PySimple** image if you just want to experiment with deploying a web-based application
+to Kubernetes.
+
+>   This version of the cookie-cutter only supports Kubernetes up to version 1.24 as
+    it still deals with **PodSecurityPolicies**. It'll be updated when we move beyond
+    1.24 in our active deployments. 
+
 Additionally, the generated project contains a `.gitignore`, `workflows`,
 `.yamllint` and `build-requirements.txt` to perform CI/CD lint and ansible
 checking of the project using GitHub Actions (once you commit the project to GitHub).
@@ -30,11 +39,10 @@ checking of the project using GitHub Actions (once you commit the project to Git
 ## Creating an application
 
 >   Importantly **YOU DO NOT NEED TO CLONE THIS REPOSITORY** to use the cookie-cutter.
-    It will clone and use the repository for you.
+    The cookie-cutter will clone and use the repository for you.
 
 Consider creating a virtual environment and then run the cookie-cutter
 from a directory where you want your kubernetes-based Ansible project to be created.
-You will eventually commit the project you create to GitHub.
 
     python -m venv ~/.venv/cookiecutter-ansible-kubernetes
     source ~/.venv/cookiecutter-ansible-kubernetes/bin/activate
@@ -51,18 +59,21 @@ named after your chosen **project_name**.
 ## Deploying the application
 You'll probably want to adjust the application's role or templates before you
 deploy it but, for the very simplest applications, you might be ready to go
-straight away.
- 
+straight away if you've used the **PySimple** image.
+
 Move to the project directory and install the requirements: -
 
     cd <project_name>
     pip install -r requirements.txt
 
-To run the produced playbook you will need a suitable `KUBECONFIG` for your
-Kubernetes cluster that allows you to create namespaces and deploy all of
+To run the produced playbook you will need a suitable `KUBECONFIG` environment variable
+for your Kubernetes cluster, one that allows you to create namespaces and deploy all of
 the objects: -
 
     export KUBECONFIG=~/k8s-config/config-local
+
+>   You can also provide a kubernetes host and API key with `K8S_AUTH_HOST` and
+    `K8S_AUTH_API_KEY` environment variables.
 
 Then run the `site.yaml` playbook in the project's directory...
 

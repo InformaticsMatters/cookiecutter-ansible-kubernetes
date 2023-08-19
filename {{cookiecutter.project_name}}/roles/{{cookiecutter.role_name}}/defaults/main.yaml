@@ -7,9 +7,6 @@
 # Set to 'absent' to undeploy
 {{cookiecutter.var_prefix}}_state: present
 
-# The KUBECONFIG file (required)
-{{cookiecutter.var_prefix}}_kubeconfig: "{{ "{{" }} lookup('env', 'KUBECONFIG') {{ "}}" }}"
-
 # The namespace to create for application deployment.
 {{cookiecutter.var_prefix}}_namespace: {{cookiecutter.namespace}}
 

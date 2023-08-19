@@ -48,7 +48,7 @@
   kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', 'pvc.yaml.j2') {{ "}}" }}"
     wait: yes
-    wait_timeout: "{{ "{{" }} wait_timeout {{ "}}" }}"
+    wait_timeout: "{{ "{{" }} {{cookiecutter.var_prefix}}_wait_timeout {{ "}}" }}"
 {% endif %}
 
 {% if cookiecutter.kind == 'job' %}
@@ -87,14 +87,14 @@
     definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
     state: absent
     wait: yes
-    wait_timeout: "{{ "{{" }} pod_ready_timeout {{ "}}" }}"
+    wait_timeout: "{{ "{{" }} {{cookiecutter.var_prefix}}_pod_ready_timeout {{ "}}" }}"
 {% endif %}
 
 - name: Deploy application
   kubernetes.core.k8s:
     definition: "{{ "{{" }} lookup('template', '{{ "{{" }} item {{ "}}" }}.yaml.j2') {{ "}}" }}"
     wait: yes
-    wait_timeout: "{{ "{{" }} pod_ready_timeout {{ "}}" }}"
+    wait_timeout: "{{ "{{" }} {{cookiecutter.var_prefix}}_pod_ready_timeout {{ "}}" }}"
   loop:
 {%- if cookiecutter.add_secret | lower in ['y'] %}
   - secret
@@ -128,7 +128,7 @@
     result.resources[0].status.completionTime is defined
     or result.resources[0].status.failed is defined
   delay: 15
-  retries: "{{ "{{" }} (wait_timeout | int / 15) | int {{ "}}" }}"
+  retries: "{{ "{{" }} ({{cookiecutter.var_prefix}}_wait_timeout | int / 15) | int {{ "}}" }}"
 
 - name: Display Job status
   ansible.builtin.debug:

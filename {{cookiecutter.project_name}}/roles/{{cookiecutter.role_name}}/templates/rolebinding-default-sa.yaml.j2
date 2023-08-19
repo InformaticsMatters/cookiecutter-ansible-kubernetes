@@ -1,8 +1,6 @@
 ---
-
 # A RoleBinding to allow the cert-manager cm-acme-http-solver Pod
-# to deploy to our namespace.
-
+# to deploy to our namespace - by binding the SA to the chosen PSP.
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:

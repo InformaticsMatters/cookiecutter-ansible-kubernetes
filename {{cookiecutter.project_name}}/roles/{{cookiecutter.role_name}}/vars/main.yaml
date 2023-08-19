@@ -21,5 +21,5 @@
 
 # General variables
 
-wait_timeout: 120
-pod_ready_timeout: 600
+{{cookiecutter.var_prefix}}_wait_timeout: 120
+{{cookiecutter.var_prefix}}_pod_ready_timeout: 600

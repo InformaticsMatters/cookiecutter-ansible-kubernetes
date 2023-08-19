@@ -3,15 +3,25 @@
 - name: Run prep
   ansible.builtin.include_tasks: prep.yaml
 
-- name: Check KUBECONFIG
+- name: Check k8s variables (KUBECONFIG)
   ansible.builtin.assert:
     that:
-    - {{cookiecutter.var_prefix}}_kubeconfig | string | length != 0
+    - k8s_kubeconfig | string | length != 0
+  when: k8s_auth_api_key | string | length == 0
+
+- name: Check k8s variables (API key)
+  ansible.builtin.assert:
+    that:
+    - k8s_auth_host | string | length != 0
+    - k8s_auth_api_key | string | length != 0
+  when: k8s_kubeconfig | string | length == 0
 
 - name: Deploy
   module_defaults:
     group/k8s:
-      kubeconfig: "{{ "{{" }} {{cookiecutter.var_prefix}}_kubeconfig {{ "}}" }}"
+      kubeconfig: "{{ dt_kubeconfig }}"
+      api_key: "{{ k8s_auth_api_key }}"
+      host: "{{ k8s_auth_host }}"
   block:
 
   - name: Run deploy play
