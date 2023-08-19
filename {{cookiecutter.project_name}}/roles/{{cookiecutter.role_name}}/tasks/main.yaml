@@ -19,9 +19,9 @@
 - name: Deploy
   module_defaults:
     group/k8s:
-      kubeconfig: "{{ k8s_kubeconfig }}"
-      api_key: "{{ k8s_auth_api_key }}"
-      host: "{{ k8s_auth_host }}"
+      kubeconfig: "{{ "{{" }} k8s_kubeconfig {{ "}}" }}"
+      api_key: "{{ "{{" }} k8s_auth_api_key {{ "}}" }}"
+      host: "{{ "{{" }} k8s_auth_host {{ "}}" }}"
   block:
 
   - name: Run deploy play
